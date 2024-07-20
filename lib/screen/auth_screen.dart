@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_reasource_manager/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -7,62 +7,77 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final AuthService _authService = AuthService();
-  final _formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
-  bool isLogin = true;
+  final _auth = FirebaseAuth.instance;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLogin = true;
+
+  void _submitAuthForm() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    UserCredential userCredential;
+
+    try {
+      if (_isLogin) {
+        userCredential = await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      } else {
+        userCredential = await _auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      }
+
+      if (userCredential.user != null) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(isLogin ? 'Login' : 'Register'),
+        title: Text(_isLogin ? 'Login' : 'Register'),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (val) => val!.isEmpty ? 'Enter an email' : null,
-                onChanged: (val) {
-                  setState(() => email = val);
-                },
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (val) => val!.length < 6 ? 'Enter a password 6+ chars long' : null,
-                onChanged: (val) {
-                  setState(() => password = val);
-                },
-              ),
-              const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    if (isLogin) {
-                      await _authService.signInWithEmailAndPassword(email, password);
-                    } else {
-                      await _authService.registerWithEmailAndPassword(email, password);
-                    }
-                  }
-                },
-                child: Text(isLogin ? 'Login' : 'Register'),
-              ),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    isLogin = !isLogin;
-                  });
-                },
-                child: Text(isLogin ? 'Create an account' : 'Already have an account?'),
-              )
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submitAuthForm,
+              child: Text(_isLogin ? 'Login' : 'Register'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _isLogin = !_isLogin;
+                });
+              },
+              child: Text(_isLogin ? 'Create an account' : 'Already have an account?'),
+            ),
+          ],
         ),
       ),
     );
