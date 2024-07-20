@@ -1,43 +1,22 @@
 class Task {
-  String id;
-  String title;
-  String description;
-  String category;
-  String priority;
-  DateTime dueDate;
-  bool completed;
+  final String id;
+  final String task;
+  final String userId;
 
-  Task({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.category,
-    required this.priority,
-    required this.dueDate,
-    required this.completed,
-  });
+  Task({required this.id, required this.task, required this.userId});
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'category': category,
-      'priority': priority,
-      'dueDate': dueDate.toIso8601String(),
-      'completed': completed,
-    };
+  factory Task.fromDocument(doc) {
+    return Task(
+      id: doc.id,
+      task: doc['task'],
+      userId: doc['userId'],
+    );
   }
 
-  factory Task.fromJson(Map<String, dynamic> json) {
-    return Task(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      category: json['category'],
-      priority: json['priority'],
-      dueDate: DateTime.parse(json['dueDate']),
-      completed: json['completed'],
-    );
+  Map<String, dynamic> toMap() {
+    return {
+      'task': task,
+      'userId': userId,
+    };
   }
 }

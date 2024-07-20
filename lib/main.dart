@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:task_reasource_manager/screen/auth_screen.dart';
-import 'package:task_reasource_manager/screen/task_screen.dart';
-import 'package:task_reasource_manager/screen/calendar_screen.dart';
-import 'package:task_reasource_manager/screen/dashboard_screen.dart';
-import 'package:task_reasource_manager/screen/notification_screen.dart';
-import 'package:task_reasource_manager/screen/home_screen.dart';
-import 'package:task_reasource_manager/firebase_option.dart';
+import 'package:task_resource_manager/screens/auth_screen.dart';
+import 'package:task_resource_manager/screens/home_screen.dart';
+import 'package:task_resource_manager/firebase_option.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
@@ -23,14 +17,11 @@ class MyApp extends StatelessWidget {
       title: 'Task Management App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: AuthScreen(),
       routes: {
         '/home': (context) => HomeScreen(),
-        '/tasks': (context) => TaskScreen(),
-        '/calendar': (context) => CalendarScreen(),
-        '/dashboard': (context) => DashboardScreen(),
-        '/notifications': (context) => NotificationScreen(),
       },
     );
   }

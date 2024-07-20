@@ -1,42 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:task_reasource_manager/models/task_model.dart';
+import 'package:task_resource_manager/models/task_model.dart';
 
 class TaskService {
-  final CollectionReference taskCollection = FirebaseFirestore.instance.collection('tasks');
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Create a new task
-  Future<void> createTask(Task task) async {
-    try {
-      await taskCollection.doc(task.id).set(task.toJson());
-    } catch (e) {
-      print(e.toString());
-    }
+  Future<void> addTask(Task task) async {
+    await _firestore.collection('tasks').add(task.toMap());
   }
 
-  // Update a task
-  Future<void> updateTask(Task task) async {
-    try {
-      await taskCollection.doc(task.id).update(task.toJson());
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  // Delete a task
-  Future<void> deleteTask(String id) async {
-    try {
-      await taskCollection.doc(id).delete();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  // Get a list of tasks
   Stream<List<Task>> getTasks() {
-    return taskCollection.snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) {
-        return Task.fromJson(doc.data() as Map<String, dynamic>);
-      }).toList();
+    return _firestore.collection('tasks').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) => Task.fromDocument(doc)).toList();
     });
   }
 }
