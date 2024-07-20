@@ -13,12 +13,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dashboard')),
+      appBar:  AppBar(title: const Text('Dashboard')),
       body: FutureBuilder(
         future: _taskService.getTasks().first,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           List<Task> tasks = snapshot.data as List<Task>;

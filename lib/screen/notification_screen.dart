@@ -18,13 +18,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Notifications')),
+      appBar: AppBar(title: const Text('Notifications')),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             _notificationService.showNotification('New Task', 'You have a new task assigned');
           },
-          child: Text('Show Notification'),
+          child: const Text('Show Notification'),
         ),
       ),
     );

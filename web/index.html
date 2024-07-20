@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Task Resource Manager</title>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-    <script type="module" src="firebase_config.js"></script>
-  </head>
-  <body>
-    <h1>Loading...</h1> <!-- Add this line for basic content -->
-    <script src="main.dart.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Resource Manager</title>
+  <link rel="manifest" href="manifest.json">
+  <script defer src="main.dart.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-analytics.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCHU85bR2xbpy0dd_fFsGSJvp-n176ZqmI",
+      authDomain: "task-manager-7859f.firebaseapp.com",
+      projectId: "task-manager-7859f",
+      storageBucket: "task-manager-7859f.appspot.com",
+      messagingSenderId: "976485051426",
+      appId: "1:976485051426:web:afe611886f9dc20d99ee7b",
+      measurementId: "G-NDJPZNKM8K"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <script src="main.dart.js" type="application/javascript"></script>
+</body>
 </html>
